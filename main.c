@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <syslog.h>
+#include <errno.h>
 #include <sys/resource.h>
 
 int main(int argc, char **argv) {
@@ -10,6 +12,9 @@ int main(int argc, char **argv) {
     pid_t pid;
     
     umask(0);
+    
+    int a = 10;
+    
     
     if (getrlimit(RLIMIT_NOFILE, &rl) < 0)
 	printf("Cant't get num of limits for files\n");
@@ -35,8 +40,9 @@ int main(int argc, char **argv) {
 	fd2 = dup(0);
 	
 	
-	
-//	exit(0);
+	openlog(NULL, LOG_CONS, LOG_DAEMON);
+	if (fd0 != 0 || fd2 != 1 || fd2 != 2)
+	    syslog(LOG_ERR, "Error file descriptors %d %d %d", fd0, fd1, fd2);
 
 	while (1) ;
 
