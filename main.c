@@ -43,8 +43,14 @@ int main(int argc, char **argv) {
 	openlog(NULL, LOG_CONS, LOG_DAEMON);
 	if (fd0 != 0 || fd2 != 1 || fd2 != 2)
 	    syslog(LOG_ERR, "Error file descriptors %d %d %d", fd0, fd1, fd2);
+	
+	syslog(LOG_ERR, "Error file descriptors %d %d %d", fd0, fd1, fd2);
 
-	while (1) ;
+	unsigned int counter = 0;
+	while (1) {
+	    counter++;
+	    sleep(1);
+	}
 
     } else {
 	/* parent */
